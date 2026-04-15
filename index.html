@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <title>For the Most Beautiful Person</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&family=Pacifico&display=swap');
+
+    :root {
+      --sky-soft: #e7f8ff;
+      --text-dark: #33506b;
+      --text-mid: #496d8d;
+      --shadow: 0 18px 45px rgba(72, 126, 177, 0.20);
+      --radius-big: 34px;
+      --radius-mid: 24px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+      overflow-y: auto;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      color: var(--text-dark);
+      background:
+        radial-gradient(circle at 10% 15%, rgba(255,255,255,0.9), transparent 18%),
+        radial-gradient(circle at 90% 12%, rgba(255,214,234,0.6), transparent 16%),
+        radial-gradient(circle at 85% 80%, rgba(217,210,255,0.55), transparent 20%),
+        linear-gradient(180deg, var(--sky-soft) 0%, #dff3ff 20%, #cfeeff 48%, #cfe2ff 70%, #f7e8ff 100%);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    body::before,
+    body::after {
+      content: '✿';
+      position: fixed;
+      font-size: 2rem;
+      opacity: 0.22;
+      z-index: 0;
+      animation: floaty 7s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    body::before {
+      top: 18px;
+      left: 20px;
+      color: #ff8ebd;
+    }
+
+    body::after {
+      right: 24px;
+      bottom: 20px;
+      color: #8bbcff;
+      animation-delay: 2s;
+    }
+
+    section {
+      min-height: 100svh;
+      min-height: 100vh;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 32px 18px;
+      isolation: isolate;
+    }
+
+    .flowers::before,
+    .flowers::after {
+      position: absolute;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      opacity: 0.35;
+      z-index: 0;
+      animation: floaty 6s ease-in-out infinite;
+      pointer-events: none;
+      text-shadow: 0 8px 20px rgba(255,255,255,0.5);
+    }
+
+    .flowers::before {
+      content: '✿ ❀';
+      top: 10%;
+      left: 7%;
+      color: #ff92c4;
+    }
+
+    .flowers::after {
+      content: '❀ ✿';
+      right: 8%;
+      bottom: 10%;
+      color: #79b9ff;
+      animation-delay: 1.7s;
+    }
+
+    .message-box {
+      position: relative;
+      z-index: 1;
+      width: min(940px, 92vw);
+      padding: 48px 28px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(255,255,255,0.72), rgba(255,255,255,0.42));
+      border: 1px solid rgba(255,255,255,0.58);
+      border-radius: var(--radius-big);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      animation: fadeUp 1s ease both;
+    }
+
+    .message-box::before,
+    .message-box::after {
+      content: '✿';
+      position: absolute;
+      font-size: 1.5rem;
+      opacity: 0.55;
+    }
+
+    .message-box::before {
+      top: 14px;
+      left: 16px;
+      color: #ff8fbd;
+    }
+
+    .message-box::after {
+      bottom: 14px;
+      right: 16px;
+      color: #8bbcff;
+    }
+
+    .eyebrow {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1rem, 2vw, 1.45rem);
+      color: #7c97c5;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .message-box h1,
+    .message-box h2 {
+      line-height: 1.35;
+      letter-spacing: 0.3px;
+      color: var(--text-dark);
+      text-shadow: 0 2px 0 rgba(255,255,255,0.7);
+    }
+
+    .message-box h1 {
+      font-size: clamp(2rem, 4.5vw, 4.2rem);
+      font-weight: 700;
+    }
+
+    .message-box h2 {
+      font-size: clamp(1.45rem, 3.2vw, 3rem);
+      font-weight: 700;
+    }
+
+    .hint {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.92rem;
+      color: var(--text-mid);
+      letter-spacing: 1px;
+      background: rgba(255,255,255,0.45);
+      border: 1px solid rgba(255,255,255,0.5);
+      padding: 10px 16px;
+      border-radius: 999px;
+      box-shadow: 0 10px 25px rgba(79, 139, 193, 0.12);
+      animation: bounce 2s infinite;
+      z-index: 1;
+      white-space: nowrap;
+    }
+
+    .final-wrap {
+      position: relative;
+      z-index: 1;
+      width: min(1120px, 95vw);
+      display: grid;
+      grid-template-columns: 1fr 1.08fr;
+      gap: 24px;
+      align-items: stretch;
+      animation: fadeUp 1s ease both;
+    }
+
+    .photo-card,
+    .schedule-card {
+      background: linear-gradient(145deg, rgba(255,255,255,0.74), rgba(255,255,255,0.42));
+      border: 1px solid rgba(255,255,255,0.56);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .photo-card {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-height: 640px;
+    }
+
+    .photo-card::before {
+      content: '❀';
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      font-size: 1.4rem;
+      color: #ff91bf;
+      opacity: 0.7;
+      z-index: 2;
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      min-height: 600px;
+      max-height: 760px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 22px;
+      display: block;
+      background: #f3f3f3;
+    }
+
+    .schedule-card {
+      padding: 28px 24px;
+      color: var(--text-dark);
+      position: relative;
+    }
+
+    .schedule-card::after {
+      content: '✿';
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      color: #8cbcff;
+      opacity: 0.65;
+      font-size: 1.2rem;
+    }
+
+    .schedule-card h3 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.7rem, 3vw, 2rem);
+      margin-bottom: 8px;
+      color: #5b7fbb;
+      padding-right: 24px;
+      line-height: 1.3;
+    }
+
+    .schedule-card p.sub {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      color: #6684a4;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: 135px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 15px 15px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(191,232,255,0.34), rgba(255,215,234,0.26));
+      border: 1px solid rgba(255,255,255,0.55);
+    }
+
+    .time {
+      font-weight: 700;
+      color: #5174a1;
+      font-size: 0.96rem;
+      line-height: 1.5;
+    }
+
+    .desc {
+      font-size: 0.97rem;
+      line-height: 1.6;
+      color: #35516d;
+      font-weight: 600;
+    }
+
+    #playMusic {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 9999;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.88);
+      color: #4f6f9a;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(79, 139, 193, 0.15);
+      display: none;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes floaty {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-14px) rotate(4deg);
+      }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      40% {
+        transform: translateX(-50%) translateY(-7px);
+      }
+      60% {
+        transform: translateX(-50%) translateY(-4px);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .final-wrap {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .photo-card {
+        min-height: auto;
+      }
+
+      .photo-card img {
+        min-height: 420px;
+        max-height: 560px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      html {
+        scroll-snap-type: y proximity;
+      }
+
+      section {
+        padding: 26px 14px;
+      }
+
+      .message-box {
+        width: 100%;
+        padding: 42px 20px;
+        border-radius: 28px;
+      }
+
+      .message-box::before,
+      .message-box::after {
+        font-size: 1.25rem;
+      }
+
+      .hint {
+        bottom: 18px;
+        font-size: 0.82rem;
+        padding: 9px 14px;
+      }
+
+      .final-wrap {
+        width: 100%;
+      }
+
+      .photo-card,
+      .schedule-card {
+        border-radius: 24px;
+      }
+
+      .photo-card {
+        padding: 12px;
+      }
+
+      .photo-card img {
+        min-height: 300px;
+        max-height: 430px;
+        border-radius: 18px;
+      }
+
+      .schedule-card {
+        padding: 22px 16px;
+      }
+
+      .item {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        padding: 14px 13px;
+        border-radius: 18px;
+      }
+
+      .time {
+        font-size: 0.92rem;
+      }
+
+      .desc {
+        font-size: 0.93rem;
+      }
+
+      #playMusic {
+        right: 12px;
+        bottom: 12px;
+        padding: 11px 14px;
+        font-size: 0.88rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body::before,
+      body::after {
+        font-size: 1.6rem;
+      }
+
+      .flowers::before,
+      .flowers::after {
+        font-size: 1.5rem;
+        opacity: 0.28;
+      }
+
+      .message-box {
+        padding: 38px 16px;
+      }
+
+      .eyebrow {
+        margin-bottom: 10px;
+      }
+
+      .photo-card img {
+        min-height: 260px;
+        max-height: 360px;
+      }
+
+      .schedule-card h3 {
+        font-size: 1.55rem;
+      }
+
+      .schedule-card p.sub {
+        font-size: 0.92rem;
+      }
+
+      .timeline {
+        gap: 10px;
+      }
+
+      .item {
+        padding: 12px;
+      }
+
+      .hint {
+        max-width: calc(100vw - 40px);
+        white-space: normal;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="flowers">
+    <div class="message-box">
+      <div class="eyebrow">a little page for you</div>
+      <h1>For the most beautiful person in Jatinangor</h1>
+    </div>
+    <div class="hint">Scroll down ↓</div>
+  </section>
+
+  <section class="flowers">
+    <div class="message-box">
+      <div class="eyebrow">every little thing feels softer with you</div>
+      <h2>That I love more than the sky that I've ever known</h2>
+    </div>
+  </section>
+
+  <section class="flowers">
+    <div class="message-box">
+      <div class="eyebrow">still thinking about you</div>
+      <h2>You know that I keep missing you and I know you too</h2>
+    </div>
+  </section>
+
+  <section class="flowers">
+    <div class="final-wrap">
+      <div class="photo-card">
+        <img src="./foto-kalian.jpeg" alt="Our photo">
+      </div>
+
+      <div class="schedule-card">
+        <h3>Ours Saturday</h3>
+        <p class="sub">Saturday, 18 April 2026</p>
+
+        <div class="timeline">
+          <div class="item">
+            <div class="time">18:00 - 19:00</div>
+            <div class="desc">Otw Jatinangor jemput orang paling cantik.</div>
+          </div>
+
+          <div class="item">
+            <div class="time">19:00 - 20:00</div>
+            <div class="desc">Otw Bandung ke tempat yang aku rasa kamu suka.</div>
+          </div>
+
+          <div class="item">
+            <div class="time">20:00 - 22:00</div>
+            <div class="desc">Somewhere cold, Citylights seen from above, and warm.</div>
+          </div>
+
+          <div class="item">
+            <div class="time">22:00 - 23:00</div>
+            <div class="desc">Otw Jatinangor.</div>
+          </div>
+
+          <div class="item">
+            <div class="time">23:00 - 00:00</div>
+            <div class="desc">Somewhere in Jatinangor.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <audio id="bgm" autoplay loop>
+    <source src="./lagu.m4a" type="audio/mp4">
+    Browser kamu tidak mendukung audio.
+  </audio>
+
+  <button id="playMusic">Play our song ♡</button>
+
+  <script>
+    const bgm = document.getElementById("bgm");
+    const playBtn = document.getElementById("playMusic");
+
+    window.addEventListener("load", () => {
+      const tryPlay = bgm.play();
+
+      if (tryPlay !== undefined) {
+        tryPlay
+          .then(() => {
+            playBtn.style.display = "none";
+          })
+          .catch(() => {
+            playBtn.style.display = "block";
+          });
+      }
+    });
+
+    playBtn.addEventListener("click", () => {
+      bgm.play();
+      playBtn.style.display = "none";
+    });
+  </script>
+</body>
+</html>
